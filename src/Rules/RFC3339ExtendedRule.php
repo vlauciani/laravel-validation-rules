@@ -10,8 +10,6 @@ class RFC3339ExtendedRule implements Rule
 {
     use ValidatesAttributes;
 
-    private $format;
-
     /**
      * Create a new rule instance.
      *
@@ -81,18 +79,19 @@ class RFC3339ExtendedRule implements Rule
             $sec_fraction = $explode_value2[0]; // $explode_value2[0]='12'
             $numoffset = $explode_value2[1] ?? null; // $explode_value2[1]='00:00'
             if (strlen($sec_fraction) < 3) {
-                $millisec = str_pad($sec_fraction, 3, 0, STR_PAD_RIGHT); // Add leading zero to RIGHT to obtain: '120'
+                $millisec = str_pad($sec_fraction, 3, '0', STR_PAD_RIGHT); // Add leading zero to RIGHT to obtain: '120'
             } else if (strlen($sec_fraction) == 3) {
                 $millisec = $sec_fraction;
             } else {
-                $millisec = explode('.', round('0.' . $sec_fraction, 3))[1];
+                (float)$sec_fraction = '0.' . $sec_fraction;
+                $millisec = explode('.', round($sec_fraction, 3))[1];
             }
             $value = $explode_value[0] . '.' . $millisec . '+' . $numoffset;
         }
         //\Log::debug(" b) to:" . $value);
 
         /* Validate */
-        \Log::debug(" validate attribute \"" . $attribute . "\" -> \"" . $value . "\" with format:\"" . $format . "\"");
+        //\Log::debug(" validate attribute \"" . $attribute . "\" -> \"" . $value . "\" with format:\"" . $format . "\"");
         $return = $this->validateDateFormat($attribute, $value, [$format]);
         //\Log::debug(" output:" . var_export($return, true));
 
