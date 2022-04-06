@@ -14,7 +14,6 @@ class RFC3339ExtendedTest extends TestCase
         $this->assertTrue($rule->passes('', '2021-10-06T06:33:36.440Z'));
         $this->assertTrue($rule->passes('', '2021-10-06T06:33:36.44Z'));
         $this->assertTrue($rule->passes('', '2021-10-06T06:33:36Z'));
-        $this->assertTrue($rule->passes('', '2021-10-06 06:33:36'));
     }
 
     public function testRuleFails()
