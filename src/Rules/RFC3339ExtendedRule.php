@@ -80,14 +80,11 @@ class RFC3339ExtendedRule implements Rule
             $explode_value2 = explode('+', $explode_value[1]); // Split '12+00:00' by '+' to get millisec
             $sec_fraction = $explode_value2[0]; // $explode_value2[0]='12'
             $numoffset = $explode_value2[1] ?? null; // $explode_value2[1]='00:00'
-            if (strlen($sec_fraction) <= 3) {
-                //\Log::debug("  A");
+            if (strlen($sec_fraction) < 3) {
                 $millisec = str_pad($sec_fraction, 3, 0, STR_PAD_RIGHT); // Add leading zero to RIGHT to obtain: '120'
             } else if (strlen($sec_fraction) == 3) {
-                //\Log::debug("  B");
                 $millisec = $sec_fraction;
             } else {
-                //\Log::debug("  C");
                 $millisec = explode('.', round('0.' . $sec_fraction, 3))[1];
             }
             $value = $explode_value[0] . '.' . $millisec . '+' . $numoffset;
