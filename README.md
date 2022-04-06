@@ -45,3 +45,6 @@ Here is a list of users who already contributed to this repository:
 
 ## Author
 (c) 2022 Valentino Lauciani vlauciani[at]gmail.com
+
+## Thanks to
+- https://github.com/vdhicts/laravel-validation-rules
