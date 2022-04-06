@@ -83,7 +83,7 @@ class RFC3339ExtendedRule implements Rule
             } else if (strlen($sec_fraction) == 3) {
                 $millisec = $sec_fraction;
             } else {
-                (float)$sec_fraction = '0.' . $sec_fraction;
+                $sec_fraction = floatval('0.' . $sec_fraction);
                 $millisec = explode('.', round($sec_fraction, 3))[1];
             }
             $value = $explode_value[0] . '.' . $millisec . '+' . $numoffset;
