@@ -84,7 +84,7 @@ class RFC3339ExtendedRule implements Rule
                 $millisec = $sec_fraction;
             } else {
                 $sec_fraction = floatval('0.' . $sec_fraction);
-                $millisec = explode('.', round($sec_fraction, 3))[1];
+                $millisec = explode('.', strval(round($sec_fraction, 3)))[1];
             }
             $value = $explode_value[0] . '.' . $millisec . '+' . $numoffset;
         }
