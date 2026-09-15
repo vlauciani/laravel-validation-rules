@@ -7,13 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [ '7.4', '8.0', '8.1' ]
+        php-versions: [ '8.0', '8.1', '8.2' ]
 
     name: PHP ${{ matrix.php-versions }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -21,8 +21,15 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, intl
 
+      # Composer >= 2.9 refuses to install packages with open security
+      # advisories, and every laravel/framework 8.x/9.x that
+      # orchestra/testbench ^6|^7 can pull has some. The framework is a
+      # test-only dependency here: consumers never get it from this package.
+      - name: Allow the test framework despite its advisories
+        run: composer config policy.advisories.ignore laravel/framework
+
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress
+        run: composer install --no-ansi --no-interaction --no-scripts --no-progress
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: |
